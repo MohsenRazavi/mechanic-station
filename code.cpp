@@ -177,30 +177,6 @@ void MechanicStation::list_workers(){
             cout<<">"<<endl;
         }
 
-void MechanicStation::list_workers(){
-            cout<<"<workers ";
-            for(int i = 0; i < num_of_workers; i++){
-                cout<<worker_list[i].name<<" ";
-            }
-            cout<<">"<<endl;
-        }
-
-void MechanicStation::list_workers(){
-            cout<<"<workers ";
-            for(int i = 0; i < num_of_workers; i++){
-                cout<<worker_list[i].name<<" ";
-            }
-            cout<<">"<<endl;
-        }
-
-void MechanicStation::list_customers(){
-            cout<<"<customers ";
-            for(int i = 0; i < num_of_customers; i++){
-                cout<<customer_list[i].name<<" ";
-            }
-            cout<<">"<<endl;
-        }
-
 void MechanicStation::list_customers(){
             cout<<"<customers ";
             for(int i = 0; i < num_of_customers; i++){

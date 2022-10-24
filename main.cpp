@@ -1,3 +1,9 @@
+#include <iostream>
+
+using namespace std;
+
+#include "code.cpp"
+
 int main(){
 
 Worker a("a", "aaa", 2.5);
