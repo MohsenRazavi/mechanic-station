@@ -24,6 +24,7 @@ class Customer{
         string name = "Moshtari";
         string car_name = "Pride";
         string problem_detail = "Doesn't move";
+
         double prices[MAXCAP];
         string cart[MAXCAP];
         
@@ -78,7 +79,9 @@ class MechanicStation{
         string station_owner = "Oosa";
 
         Worker worker_list[MAXCAP];
+        int num_of_workers = 0;
         Customer customer_list[MAXCAP];
+        int num_of_customers = 0;
 
         MechanicStation(string station_name, string station_owner):station_name(station_name),station_owner(station_owner){}
         MechanicStation(){}
@@ -88,18 +91,20 @@ class MechanicStation{
         }
 
         void add_worker(Worker new_worker){
-            worker_list[sizeof(worker_list)] = new_worker;
+            worker_list[num_of_workers] = new_worker;
+            num_of_workers++;
             cout<<"Successful !"<<endl;
         }
 
-        void add_customer(Customer& new_customer){
-            customer_list[sizeof(customer_list)] = new_customer;
+        void add_customer(Customer new_customer){
+            customer_list[num_of_customers] = new_customer;
+            num_of_customers++;
             cout<<"Successful !"<<endl;        
         }
     
         void list_workers(){
             cout<<"<workers ";
-            for(int i = 0; i < sizeof(worker_list); i++){
+            for(int i = 0; i < num_of_workers; i++){
                 cout<<worker_list[i].name<<" ";
             }
             cout<<">"<<endl;
@@ -107,7 +112,7 @@ class MechanicStation{
 
         void list_customers(){
             cout<<"<customers ";
-            for(int i = 0; i < sizeof(worker_list); i++){
+            for(int i = 0; i < num_of_customers; i++){
                 cout<<customer_list[i].name<<" ";
             }
             cout<<">"<<endl;
@@ -140,13 +145,11 @@ Customer d("d", "d_car", "d_prob");
 // d.represent();
 
 MechanicStation m("m", "mm");
-m.represent();
+// m.represent();
 
 m.add_worker(a);
-m.add_customer(c);
-m.list_workers();
-m.list_customers();
 m.add_worker(b);
+m.add_customer(c);
 m.add_customer(d);
 m.list_workers();
 m.list_customers();
