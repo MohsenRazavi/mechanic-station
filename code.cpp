@@ -153,7 +153,6 @@ void Customer::reckoning(){
 
 
 //MechanicStation methods
-
 void MechanicStation::represent(){
             cout<<station_owner<<"->"<<station_name<<endl;
             list_workers();
