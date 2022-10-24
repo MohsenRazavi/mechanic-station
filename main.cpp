@@ -32,13 +32,7 @@ m.add_to_customer_cart(c, Tool("fanar", 24.3));
 
 // c.add_to_cart(Tool("charkh", 50.6));
 
-c.print_cart();
-
-m.remove_from_customer_cart(c, "fanar");
-
-c.print_cart();
-
-cout<<c.reckoning();
+c.reckoning();
 
     return 0;
 }

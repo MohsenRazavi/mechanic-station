@@ -64,7 +64,7 @@ class Customer{
 
         void print_cart();
 
-        double reckoning();
+        void reckoning();
 };
  
 
@@ -99,7 +99,7 @@ class MechanicStation{
 
 // Tool methods
 void Tool::print_tool(){
-        cout<<name<<"-> "<<price<<endl; 
+        cout<<"("<<name<<", "<<price<<"$) "; 
     }
 
 // Worker methods
@@ -135,17 +135,20 @@ void Customer::remove_from_cart(string tool_name){
 }
 
 void Customer::print_cart(){
+    cout<<"<"<<name<<" cart ";
             for (int i = 0; i < cart_size; i++){
                 cart[i].print_tool();
             }
+            cout<<">"<<endl;
         }
 
-double Customer::reckoning(){
+void Customer::reckoning(){
+            print_cart();
             double sum = 0;
             for(int i=0; i<cart_size; i++){
                 sum += cart[i].price;
             }
-            return sum;
+            cout<<"{Sum :"<<sum<<"$}";
         }
 
 
