@@ -1,4 +1,6 @@
 #include <iostream>
+#include<unistd.h>
+
 #define MAXCAP 100
 
 
@@ -13,6 +15,11 @@ class Worker;
 class Customer;
 
 class MechanicStation;
+
+void n_delay(int n){
+unsigned int microsecond = 1000000;
+usleep(n * microsecond); //sleeps for n second
+}
 
 
 // class definetion
