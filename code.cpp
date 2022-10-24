@@ -4,6 +4,20 @@
 
 using namespace std;
 
+
+class Tool{
+    public:
+    string name = "";
+    double price = 0.0;
+
+    Tool(string name, double price):name(name),price(price){}
+    Tool(){}
+
+    void print_tool(){
+        cout<<name<<"-> "<<price<<endl; 
+    }
+};
+
 class Worker{
     public:
         string name = "Kargar";
@@ -25,8 +39,8 @@ class Customer{
         string car_name = "Pride";
         string problem_detail = "Doesn't move";
 
-        double prices[MAXCAP];
-        string cart[MAXCAP];
+        Tool cart[MAXCAP];
+        int cart_size = 0;
         
         Customer(string name, string car_name, string problem_detail):name(name),car_name(car_name),problem_detail(problem_detail){}
         Customer(){}
@@ -36,34 +50,35 @@ class Customer{
             cout<<name<<" | "<<car_name<<" | "<<problem_detail<<endl;
         }
         
-        void add_price(double new_price){
-            prices[sizeof(prices)] = new_price;
-            cout<<"Successful !"<<endl;
-        }
 
-        void add_to_cart(string new_tool){
-            cart[sizeof(cart)] = new_tool;
+        void add_to_cart(const Tool& new_tool){
+            cart[cart_size] = new_tool;
+            cart_size++;
             cout<<"Successful !"<<endl;
         }
 
         int remove_from_cart(string tool_name){
-            for (int i = 0 ; i < sizeof(cart); i++){
-                if (cart[i] == tool_name){
-                    cart[i] = "";
+            for (int i = 0 ; i < cart_size; i++){
+                if (cart[i].name == tool_name){
+                    cart[i] = Tool();
+                    cart_size--;
                     return i;
                 } 
             }
+            cout<<tool_name<<" not found !"<<endl;
         }
 
-        void delete_price(int index){
-            prices[index] = 0;
-            cout << "Successful !"<<endl;
+        void print_cart(){
+            for (int i = 0; i < cart_size; i++){
+                cart[i].print_tool();
+            }
         }
+
 
         double reckoning(){
             double sum = 0;
-            for(int i=0; i<sizeof(prices); i++){
-                sum += prices[i];
+            for(int i=0; i<cart_size; i++){
+                sum += cart[i].price;
             }
             return sum;
         }
@@ -88,15 +103,17 @@ class MechanicStation{
 
         void represent(){
             cout<<station_owner<<"->"<<station_name<<endl;
+            list_workers();
+            list_customers();
         }
 
-        void add_worker(Worker new_worker){
+        void add_worker(const Worker& new_worker){
             worker_list[num_of_workers] = new_worker;
             num_of_workers++;
             cout<<"Successful !"<<endl;
         }
 
-        void add_customer(Customer new_customer){
+        void add_customer(const Customer& new_customer){
             customer_list[num_of_customers] = new_customer;
             num_of_customers++;
             cout<<"Successful !"<<endl;        
@@ -118,14 +135,12 @@ class MechanicStation{
             cout<<">"<<endl;
         }
 
-        void add_to_customer_cart(Customer customer, string new_tool, double price){
+        void add_to_customer_cart(Customer& customer, const Tool new_tool){
             customer.add_to_cart(new_tool);
-            customer.add_price(price);
         }
 
-        void remove_from_customer_cart(Customer customer, string tool_name){
-            int ind = customer.remove_from_cart(tool_name);
-            customer.delete_price(ind);
+        void remove_from_customer_cart(Customer& customer, const string tool_name){
+            customer.remove_from_cart(tool_name);
         }
 };
 
@@ -151,8 +166,20 @@ m.add_worker(a);
 m.add_worker(b);
 m.add_customer(c);
 m.add_customer(d);
-m.list_workers();
-m.list_customers();
+
+m.add_to_customer_cart(c, Tool("charkh", 50.6));
+m.add_to_customer_cart(c, Tool("panke", 120));
+m.add_to_customer_cart(c, Tool("fanar", 24.3));
+
+// c.add_to_cart(Tool("charkh", 50.6));
+
+c.print_cart();
+
+m.remove_from_customer_cart(c, "fanar");
+
+c.print_cart();
+
+cout<<c.reckoning();
 
     return 0;
 }
