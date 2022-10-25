@@ -2,37 +2,42 @@
 
 using namespace std;
 
-#include "code.cpp"
+#include "exec.cpp"
 
 int main(){
+int a;
+MechanicStation local_station;
+welcome();
+local_station = make_station();
+while(1){
+a = station_management(local_station);
+switch (a)
+{
+case 1:
+station_info(local_station);
+break;
 
-Worker a("a", "aaa", 2.5);
-Worker b("b", "bbb", 1.95);
+case 2:
+change_owner(local_station);
+break;
 
-// a.work();
-// b.work();
+case 3:
+add_worker(local_station);
+break;
 
-Customer c("c", "c_car", "c_prob");
-Customer d("d", "d_car", "d_prob");
+case 4:
+add_customer(local_station);
+break;
 
-// c.represent();
-// d.represent();
+case 5:
+remove_from_customer_cart(local_station);
+break;
 
-MechanicStation m("m", "mm");
-// m.represent();
+case 6:
+add_item_to_customer_cart(local_station);
+break;
 
-m.add_worker(a);
-m.add_worker(b);
-m.add_customer(c);
-m.add_customer(d);
-
-m.add_to_customer_cart(c, Tool("charkh", 50.6));
-m.add_to_customer_cart(c, Tool("panke", 120));
-m.add_to_customer_cart(c, Tool("fanar", 24.3));
-
-// c.add_to_cart(Tool("charkh", 50.6));
-
-c.reckoning();
-
+}
+}
     return 0;
 }

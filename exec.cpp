@@ -13,9 +13,11 @@ MechanicStation make_station();
 void help();
 void station_info(MechanicStation station);
 int station_management(MechanicStation station);
-void change_owner(MechanicStation station);
-void add_worker(MechanicStation station);
-void add_customer(MechanicStation station);
+void change_owner(MechanicStation& station);
+void add_worker(MechanicStation& station);
+void add_customer(MechanicStation& station);
+void remove_from_customer_cart(MechanicStation& station);
+void add_item_to_customer_cart(MechanicStation& station);
 
 
 // definations
@@ -88,13 +90,13 @@ cin>>c;
 int station_management(MechanicStation station){
 system("clear");
 cout<<"<-- "<<station.station_name<<" Management -->"<<endl;
-string oprations[6] = {"Show info", "Change owner", "Add worker", "Add customer", "Remove customer", "Add Item to customer cart"};
+string oprations[6] = {"Show info", "Change owner", "Add worker", "Add customer", "Remove item from customer cart", "Add item to customer cart"};
 int s = choose_oprations(oprations, 6);
 
 return s;
 }
 
-void change_owner(MechanicStation station){
+void change_owner(MechanicStation& station){
     system("clear");
     string name;
     cout<<"<-- Change "<<station.station_name<<" Owner -->"<<endl;
@@ -106,7 +108,7 @@ void change_owner(MechanicStation station){
     n_delay(3);
 }
 
-void add_worker(MechanicStation station){
+void add_worker(MechanicStation& station){
     system("clear");
     string name, job;
     double payment;
@@ -121,11 +123,11 @@ void add_worker(MechanicStation station){
     station.add_worker(Worker(name, job, payment));
 
     cout<<name<<" added to station succsfully !"<<endl;
-    n_delay(5);
+    n_delay(3);
 }
 
 
-void add_customer(MechanicStation station){
+void add_customer(MechanicStation& station){
     system("clear");
     string name, car_name, problem_detail;
     cout<<"<-- Add Customer To "<<station.station_name<<" Station -->"<<endl;
@@ -139,39 +141,67 @@ void add_customer(MechanicStation station){
     station.add_customer(Customer(name, car_name, problem_detail));
 
     cout<<name<<" added to station succsfully !"<<endl;
-    n_delay(5);
+    n_delay(3);
 }
 
+void remove_from_customer_cart(MechanicStation& station){
+    system("clear");
+    string name, tool;
+    int found = 0;
+    cout<<"<-- Remove Item From Customer Cart -->"<<endl;
+    station.list_customers();
+    int i = 0;
+    while(not found){
+    cout<<"Enter customer name :"<<endl;
+    cin>>name;
+    for(i; i < station.num_of_customers;i++){
+        if (station.customer_list[i].name == name){
+        found = 1;
+        break;
+        }
+    }
+    if(not found)
+    cout<<"Invalid name! Try again"<<endl;
+    }
+    found = 0;
+    station.customer_list[i].print_cart();
+    cout<<"Enter tool name :"<<endl;
+    cin>>tool;
+    station.remove_from_customer_cart(station.customer_list[i], tool);
+    cout<<tool<<" deleted succesfully from "<<station.customer_list[i].name<<" cart!"<<endl;
+    n_delay(3);
+}
 
-int main(){
-int a;
-MechanicStation local_station;
-welcome();
-local_station = make_station();
-while(1){
-a = station_management(local_station);
-switch (a)
-{
-case 1:
-station_info(local_station);
-break;
+void add_item_to_customer_cart(MechanicStation& station){
+    system("clear");
+    string name, tool_name;
+    double tool_price;
+    int found = 0;
+    cout<<"<-- Add Item To Customer Cart -->"<<endl;
+    station.list_customers();
+    int i = 0;
+    while(not found){
+    cout<<"Enter customer name :"<<endl;
+    cin>>name;
+    for(i; i < station.num_of_customers;i++){
+        if (station.customer_list[i].name == name){
+        found = 1;
+        break;
+        }
+    }
+    if(not found)
+    cout<<"Invalid name! Try again"<<endl;
+    }
+    station.customer_list[i].print_cart();
+    cout<<"Enter tool name :"<<endl;
+    cin>>tool_name;
 
-case 2:
-change_owner(local_station);
-break;
+    cout<<"Enter tool price :"<<endl;
+    cin>>tool_price;
 
-case 3:
-add_worker(local_station);
-break;
-
-case 4:
-add_customer(local_station);
-break;
-
-case 5:
-
+    station.add_to_customer_cart(station.customer_list[i] ,Tool(tool_name, tool_price));
+    cout<<tool_name<<" added succesfully to "<<station.customer_list[i].name<<" cart!"<<endl;
+    n_delay(3);
 
 }
-}
-    return 0;
-}
+
