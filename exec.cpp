@@ -18,6 +18,7 @@ void add_worker(MechanicStation& station);
 void add_customer(MechanicStation& station);
 void remove_from_customer_cart(MechanicStation& station);
 void add_item_to_customer_cart(MechanicStation& station);
+void exit();
 
 
 // definations
@@ -90,8 +91,8 @@ cin>>c;
 int station_management(MechanicStation station){
 system("clear");
 cout<<"<-- "<<station.station_name<<" Management -->"<<endl;
-string oprations[6] = {"Show info", "Change owner", "Add worker", "Add customer", "Remove item from customer cart", "Add item to customer cart"};
-int s = choose_oprations(oprations, 6);
+string oprations[7] = {"Show info", "Change owner", "Add worker", "Add customer", "Remove item from customer cart", "Add item to customer cart", "Exit"};
+int s = choose_oprations(oprations, 7);
 
 return s;
 }
@@ -205,3 +206,8 @@ void add_item_to_customer_cart(MechanicStation& station){
 
 }
 
+void exit(){
+        system("clear");
+        cout<<"Take life easy ! :)"<<endl;
+        n_delay(5);
+}

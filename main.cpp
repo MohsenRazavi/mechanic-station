@@ -5,9 +5,16 @@ using namespace std;
 #include "exec.cpp"
 
 int main(){
-int a;
+int a, b;
 MechanicStation local_station;
-welcome();
+b = welcome();
+if (b==2){
+    help();
+}
+if(b==3){
+    exit();
+    return 0;
+}
 local_station = make_station();
 while(1){
 a = station_management(local_station);
@@ -37,7 +44,13 @@ case 6:
 add_item_to_customer_cart(local_station);
 break;
 
+case 7:
+exit();
+return 0;
+break;
+
 }
 }
+
     return 0;
 }
