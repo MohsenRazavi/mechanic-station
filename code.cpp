@@ -138,11 +138,10 @@ void Customer::remove_from_cart(string tool_name){
             break;
         } 
     }
-    cout<<tool_name<<" not found !"<<endl;
 }
 
 void Customer::print_cart(){
-    cout<<"<"<<name<<" cart ";
+    cout<<"<cart-"<<name<<" ";
             for (int i = 0; i < cart_size; i++){
                 cart[i].print_tool();
             }

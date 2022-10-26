@@ -18,6 +18,8 @@ void add_worker(MechanicStation& station);
 void add_customer(MechanicStation& station);
 void remove_from_customer_cart(MechanicStation& station);
 void add_item_to_customer_cart(MechanicStation& station);
+void customer_list(MechanicStation& station); //new
+void reckoning_with_customer(MechanicStation& station); //new
 void exit();
 
 
@@ -91,8 +93,8 @@ cin>>c;
 int station_management(MechanicStation station){
 system("clear");
 cout<<"<-- "<<station.station_name<<" Management -->"<<endl;
-string oprations[7] = {"Show info", "Change owner", "Add worker", "Add customer", "Remove item from customer cart", "Add item to customer cart", "Exit"};
-int s = choose_oprations(oprations, 7);
+string oprations[9] = {"Show info", "Change owner", "Add worker", "Add customer", "Remove item from customer cart", "Add item to customer cart", "Customer list", "Reckoning with customer", "Exit"};
+int s = choose_oprations(oprations, 9);
 
 return s;
 }
@@ -114,9 +116,9 @@ void add_worker(MechanicStation& station){
     string name, job;
     double payment;
     cout<<"<-- Add Worker To "<<station.station_name<<" Station -->"<<endl;
-    cout<<"Enter workers name :"<<endl;
+    cout<<"Enter worker name :"<<endl;
     cin>>name;
-    cout<<"Enter workers job :"<<endl;
+    cout<<"Enter worker job :"<<endl;
     cin>>job;
     cout<<"How much is his/her payment ($) ?"<<endl;
     cin>>payment;
@@ -164,7 +166,6 @@ void remove_from_customer_cart(MechanicStation& station){
     if(not found)
     cout<<"Invalid name! Try again"<<endl;
     }
-    found = 0;
     station.customer_list[i].print_cart();
     cout<<"Enter tool name :"<<endl;
     cin>>tool;
