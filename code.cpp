@@ -163,7 +163,7 @@ void Customer::reckoning(){
             for(int i=0; i<cart_size; i++){
                 sum += cart[i].price;
             }
-            cout<<"{Sum :"<<sum<<"$}";
+            cout<<"{Sum :"<<sum<<"$}"<<endl;
         }
 
 

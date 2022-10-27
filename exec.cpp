@@ -19,7 +19,7 @@ void add_customer(MechanicStation& station);
 void remove_from_customer_cart(MechanicStation& station);
 void add_item_to_customer_cart(MechanicStation& station);
 void customer_list(MechanicStation& station);
-void reckoning_with_customer(MechanicStation& station); //new
+void reckoning_with_customer(MechanicStation& station);
 void exit();
 
 
@@ -45,7 +45,25 @@ int welcome(){
     system("clear");
     cout<<"<-- Welcome To Mechanic Station Admin -->"<<endl;
     string oprations[3] = {"Start", "Help", "Quit"};
-    return choose_oprations(oprations, 3);
+    int choice = choose_oprations(oprations, 3);
+    while(1){
+        if(choice == 1){
+        break;    
+        }
+       else if (choice == 2){
+            help();
+            break;
+        }
+        else if(choice==3){
+        exit();
+        return 0;
+        }
+        else{
+            cout<<"Invalid input! Try again."<<endl;
+            cin>>choice;
+        }
+    }
+    return choice;
 }
 
 void help(){
@@ -62,7 +80,7 @@ MechanicStation make_station(){
 system("clear");
 cout<<"<-- Building Your Mechanic Station -->"<<endl;
 string name, owner_name;
-cout<<"Enter name : "<<endl;
+cout<<"Enter station name : "<<endl;
 cin>>name;
 cout<<"Enter owner name : "<<endl;
 cin>>owner_name;
@@ -78,6 +96,7 @@ return new_station;
 
 void station_info(MechanicStation station){
 system("clear");
+char c;
 
 cout<<"<-- "<<station.station_name<<" Info -->"<<endl;
 cout<<"Owner name :"<<station.station_owner<<endl;
@@ -85,8 +104,7 @@ station.list_workers();
 station.list_customers();
 
 cout<<"Enter any thing to continue ..."<<endl;
-// cin>>c;
-char c = getchar();
+cin>>c;
 
 }
 
@@ -104,7 +122,7 @@ void change_owner(MechanicStation& station){
     string name;
     cout<<"<-- Change "<<station.station_name<<" Owner -->"<<endl;
     cout<<"Last owner : "<<station.station_owner<<endl;
-    cout<<"Enter new owner name : ";
+    cout<<"Enter new owner name :"<<endl;
     cin>>name;
     station.station_owner = name;
     cout<<"Owner set to "<<station.station_owner<<" successfully !"<<endl;
@@ -116,8 +134,20 @@ void add_worker(MechanicStation& station){
     string name, job;
     double payment;
     cout<<"<-- Add Worker To "<<station.station_name<<" Station -->"<<endl;
-    cout<<"Enter worker name :"<<endl;
-    cin>>name;
+
+    while(1){
+        int f = 1;
+        cout<<"Enter worker name :"<<endl;
+        cin>>name;
+        for(int i = 0; i<station.num_of_workers; i++){
+            if(name == station.worker_list[i].name){
+                f = 0;
+                cout<<"This name is already exists! Try again."<<endl;
+            }
+        }
+        if (f) break;
+        
+        }
     cout<<"Enter worker job :"<<endl;
     cin>>job;
     cout<<"How much is his/her payment ($) ?"<<endl;
@@ -168,8 +198,7 @@ void remove_from_customer_cart(MechanicStation& station){
     while(not found){
     cout<<"Enter customer name :"<<endl;
     cin>>name;
-    i = 0;
-    for(i; i < station.num_of_customers;i++){
+    for(i = 0; i < station.num_of_customers;i++){
         if (station.customer_list[i].name == name){
         found = 1;
         break;
@@ -179,8 +208,21 @@ void remove_from_customer_cart(MechanicStation& station){
     cout<<"Customer not found! Try again."<<endl;
     }
     station.customer_list[i].print_cart();
+    found = 0;
+    while (not found){
+    found = 0;
     cout<<"Enter tool name :"<<endl;
     cin>>tool;
+        for(int j=0 ; j< station.customer_list[i].cart_size ;j++){
+        if (station.customer_list[i].name == name){
+        found = 1;
+        break;
+        }
+    }
+    if(not found)
+    cout<<"Customer not found! Try again."<<endl;
+        
+    }
     station.remove_from_customer_cart(station.customer_list[i], tool);
     cout<<tool<<" deleted successfully from "<<station.customer_list[i].name<<" cart!"<<endl;
     n_delay(3);
@@ -197,8 +239,8 @@ void add_item_to_customer_cart(MechanicStation& station){
     while(not found){
     cout<<"Enter customer name : ";
     cin>>name;
-    i = 0;
-    for(i; i < station.num_of_customers; i++){
+    
+    for(i = 0; i < station.num_of_customers; i++){
         if (station.customer_list[i].name == name){
         found = 1;
         break;
@@ -224,6 +266,7 @@ void customer_list(MechanicStation& station){
     system("clear");
     string name;
     int found = 0;
+    char c;
     cout<<"<-- Customer list -->"<<endl;
     station.list_customers();
     int i;
@@ -231,8 +274,8 @@ void customer_list(MechanicStation& station){
     while(not found){
         cout<<"Enter customer name : ";
         cin>>name;
-        i = 0;
-        for(i ; i < station.num_of_customers; i++){
+        
+        for(i = 0; i < station.num_of_customers; i++){
             if (name == station.customer_list[i].name){
                 found = 1;
                 break;
@@ -245,21 +288,22 @@ void customer_list(MechanicStation& station){
     station.customer_list[i].represent();
     station.customer_list[i].print_cart();
     cout<<"Enter anything to back to management panel."<<endl;
-    char c = getchar();
+    cin>>c;
 }
 
 void reckoning_with_customer(MechanicStation& station){
     system("clear");
     string name;
     int found = 0;
+    char c;
     cout<<"<-- Reckoning With Customer -->"<<endl;
     station.list_customers();
     int i;
     while(not found){
         cout<<"Enter customer name : ";
         cin>>name;
-        i = 0;
-        for(i ; i < station.num_of_customers; i++){
+        
+        for(i = 0; i < station.num_of_customers; i++){
             if (name == station.customer_list[i].name){
                 found = 1;
                 break;
@@ -272,8 +316,7 @@ void reckoning_with_customer(MechanicStation& station){
     station.customer_list[i].reckoning();
 
     cout<<"Enter anything to back to management panel."<<endl;
-    // cin>>a;
-    char a = getchar();
+    cin>>c;
 
 }
 

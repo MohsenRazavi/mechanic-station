@@ -8,13 +8,7 @@ int main(){
 int a, b;
 MechanicStation local_station;
 b = welcome();
-if (b==2){
-    help();
-}
-if(b==3){
-    exit();
-    return 0;
-}
+if (b==3) return 0;
 local_station = make_station();
 while(1){
 a = station_management(local_station);
