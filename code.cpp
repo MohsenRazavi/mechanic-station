@@ -41,11 +41,14 @@ class Worker{
         string name = "Kargar";
         string job = "Kargari";
         double peyment = 0.0;
+        int state = 0;
 
         Worker(string name, string job, double payment):name(name),job(job),peyment(payment){}
         Worker(){}
 
         void work();
+
+        void rest();
 
         void represent();
 };
@@ -111,8 +114,14 @@ void Tool::print_tool(){
 
 // Worker methods
 void Worker::work(){
+            state = 1;
             cout<<name<<": I'm workiiingggg !!!"<<endl;
         }
+
+void Worker::rest(){
+    state = 0;
+    cout<<name<<": Lets have a coffee !";
+}
 
 void Worker::represent(){
     cout<<name<<"-"<<job<<endl;
@@ -121,7 +130,7 @@ void Worker::represent(){
 
 //Customer methods
 void Customer::represent(){
-            cout<<name<<" | "<<car_name<<" | "<<problem_detail<<endl;
+            cout<<"<customer (name : "<<name<<" ) (car : "<<car_name<<" ) (problem : "<<problem_detail<<" ) >"<<endl;
         }
 
 void Customer::add_to_cart(const Tool& new_tool){

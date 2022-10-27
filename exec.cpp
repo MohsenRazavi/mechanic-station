@@ -18,7 +18,7 @@ void add_worker(MechanicStation& station);
 void add_customer(MechanicStation& station);
 void remove_from_customer_cart(MechanicStation& station);
 void add_item_to_customer_cart(MechanicStation& station);
-void customer_list(MechanicStation& station); //new
+void customer_list(MechanicStation& station);
 void reckoning_with_customer(MechanicStation& station); //new
 void exit();
 
@@ -36,7 +36,7 @@ int choose_oprations(string opration_list[], int num_of_oprations){
         if (opr>=1 && opr <=num_of_oprations+1)
             return opr;
         else{
-            cout<<"Invalid! Try again."<<endl;
+            cout<<"Invalid choice! Try again."<<endl;
         }
     }
 }
@@ -68,7 +68,7 @@ cout<<"Enter owner name : "<<endl;
 cin>>owner_name;
 
 MechanicStation new_station(name, owner_name);
-cout<<"The station Succesfully built."<<endl;
+cout<<"The station Successfully built."<<endl;
 
 n_delay(1);
 
@@ -78,7 +78,6 @@ return new_station;
 
 void station_info(MechanicStation station){
 system("clear");
-char c;
 
 cout<<"<-- "<<station.station_name<<" Info -->"<<endl;
 cout<<"Owner name :"<<station.station_owner<<endl;
@@ -86,7 +85,8 @@ station.list_workers();
 station.list_customers();
 
 cout<<"Enter any thing to continue ..."<<endl;
-cin>>c;
+// cin>>c;
+char c = getchar();
 
 }
 
@@ -107,7 +107,7 @@ void change_owner(MechanicStation& station){
     cout<<"Enter new owner name : ";
     cin>>name;
     station.station_owner = name;
-    cout<<"Owner set to "<<station.station_owner<<" succsfully !"<<endl;
+    cout<<"Owner set to "<<station.station_owner<<" successfully !"<<endl;
     n_delay(3);
 }
 
@@ -134,8 +134,19 @@ void add_customer(MechanicStation& station){
     system("clear");
     string name, car_name, problem_detail;
     cout<<"<-- Add Customer To "<<station.station_name<<" Station -->"<<endl;
+    while(1){
+    int f = 1;
     cout<<"Enter customer name :"<<endl;
     cin>>name;
+    for(int i = 0; i<station.num_of_customers; i++){
+        if(name == station.customer_list[i].name){
+            f = 0;
+            cout<<"This name is already exists! Try again."<<endl;
+        }
+    }
+    if (f) break;
+    
+    }
     cout<<"Enter customer car :"<<endl;
     cin>>car_name;
     cout<<"What is his/her problem ?"<<endl;
@@ -143,7 +154,7 @@ void add_customer(MechanicStation& station){
 
     station.add_customer(Customer(name, car_name, problem_detail));
 
-    cout<<name<<" added to station succsfully !"<<endl;
+    cout<<name<<" added to station successfully !"<<endl;
     n_delay(3);
 }
 
@@ -153,10 +164,11 @@ void remove_from_customer_cart(MechanicStation& station){
     int found = 0;
     cout<<"<-- Remove Item From Customer Cart -->"<<endl;
     station.list_customers();
-    int i = 0;
+    int i;
     while(not found){
     cout<<"Enter customer name :"<<endl;
     cin>>name;
+    i = 0;
     for(i; i < station.num_of_customers;i++){
         if (station.customer_list[i].name == name){
         found = 1;
@@ -164,13 +176,13 @@ void remove_from_customer_cart(MechanicStation& station){
         }
     }
     if(not found)
-    cout<<"Invalid name! Try again"<<endl;
+    cout<<"Customer not found! Try again."<<endl;
     }
     station.customer_list[i].print_cart();
     cout<<"Enter tool name :"<<endl;
     cin>>tool;
     station.remove_from_customer_cart(station.customer_list[i], tool);
-    cout<<tool<<" deleted succesfully from "<<station.customer_list[i].name<<" cart!"<<endl;
+    cout<<tool<<" deleted successfully from "<<station.customer_list[i].name<<" cart!"<<endl;
     n_delay(3);
 }
 
@@ -183,16 +195,17 @@ void add_item_to_customer_cart(MechanicStation& station){
     station.list_customers();
     int i = 0;
     while(not found){
-    cout<<"Enter customer name :"<<endl;
+    cout<<"Enter customer name : ";
     cin>>name;
-    for(i; i < station.num_of_customers;i++){
+    i = 0;
+    for(i; i < station.num_of_customers; i++){
         if (station.customer_list[i].name == name){
         found = 1;
         break;
         }
     }
     if(not found)
-    cout<<"Invalid name! Try again"<<endl;
+    cout<<"Customer not found! Try again."<<endl;
     }
     station.customer_list[i].print_cart();
     cout<<"Enter tool name :"<<endl;
@@ -202,13 +215,74 @@ void add_item_to_customer_cart(MechanicStation& station){
     cin>>tool_price;
 
     station.add_to_customer_cart(station.customer_list[i] ,Tool(tool_name, tool_price));
-    cout<<tool_name<<" added succesfully to "<<station.customer_list[i].name<<" cart!"<<endl;
+    cout<<tool_name<<" added successfully to "<<station.customer_list[i].name<<" cart!"<<endl;
     n_delay(3);
 
 }
 
+void customer_list(MechanicStation& station){
+    system("clear");
+    string name;
+    int found = 0;
+    cout<<"<-- Customer list -->"<<endl;
+    station.list_customers();
+    int i;
+    char a;
+    while(not found){
+        cout<<"Enter customer name : ";
+        cin>>name;
+        i = 0;
+        for(i ; i < station.num_of_customers; i++){
+            if (name == station.customer_list[i].name){
+                found = 1;
+                break;
+            }
+            if (not found){
+                cout<<"Customer not found! Try again."<<endl;
+            }
+        }
+    }
+    station.customer_list[i].represent();
+    station.customer_list[i].print_cart();
+    cout<<"Enter anything to back to management panel."<<endl;
+    char c = getchar();
+}
+
+void reckoning_with_customer(MechanicStation& station){
+    system("clear");
+    string name;
+    int found = 0;
+    cout<<"<-- Reckoning With Customer -->"<<endl;
+    station.list_customers();
+    int i;
+    while(not found){
+        cout<<"Enter customer name : ";
+        cin>>name;
+        i = 0;
+        for(i ; i < station.num_of_customers; i++){
+            if (name == station.customer_list[i].name){
+                found = 1;
+                break;
+            }
+            if (not found){
+                cout<<"Customer not found! Try again."<<endl;
+            }
+        }
+    }
+    station.customer_list[i].reckoning();
+
+    cout<<"Enter anything to back to management panel."<<endl;
+    // cin>>a;
+    char a = getchar();
+
+}
+
+
 void exit(){
         system("clear");
         cout<<"Take life easy ! :)"<<endl;
-        n_delay(5);
+        n_delay(1);
 }
+
+
+

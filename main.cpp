@@ -45,6 +45,14 @@ add_item_to_customer_cart(local_station);
 break;
 
 case 7:
+customer_list(local_station);
+break;
+
+case 8:
+reckoning_with_customer(local_station);
+break;
+
+case 9:
 exit();
 return 0;
 break;
