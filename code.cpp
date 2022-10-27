@@ -124,7 +124,12 @@ void Worker::rest(){
 }
 
 void Worker::represent(){
-    cout<<name<<"-"<<job<<endl;
+    cout<<"<worker (name: "<<name<<" ) (job: "<<job<<" ) (state : ";
+    if(state == 0)
+    cout<<" rest) >"<<endl;
+    else{
+        cout<<" work) >"<<endl;
+    }
 }
 
 

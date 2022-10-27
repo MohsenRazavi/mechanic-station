@@ -47,6 +47,10 @@ reckoning_with_customer(local_station);
 break;
 
 case 9:
+view_workers(local_station);
+break;
+
+case 10:
 exit();
 return 0;
 break;
