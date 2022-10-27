@@ -42,6 +42,7 @@ class Worker{
         string job = "Kargari";
         double peyment = 0.0;
         int state = 0;
+        int paid_cash = 0;
 
         Worker(string name, string job, double payment):name(name),job(job),peyment(payment){}
         Worker(){}
@@ -59,6 +60,7 @@ class Customer{
         string name = "Moshtari";
         string car_name = "Pride";
         string problem_detail = "Doesn't move";
+        int paid_cash = 0;
 
         Tool cart[MAXCAP];
         int cart_size = 0;
@@ -74,7 +76,7 @@ class Customer{
 
         void print_cart();
 
-        void reckoning();
+        double reckoning();
 };
  
 
@@ -82,6 +84,7 @@ class MechanicStation{
     public:
         string station_name = "Mechanici";
         string station_owner = "Oosa";
+        double credit = 0.0;
 
         Worker worker_list[MAXCAP];
         int num_of_workers = 0;
@@ -104,6 +107,7 @@ class MechanicStation{
         void add_to_customer_cart(Customer& customer, const Tool new_tool);
 
         void remove_from_customer_cart(Customer& customer, const string tool_name);
+
 };
 
 
@@ -120,22 +124,34 @@ void Worker::work(){
 
 void Worker::rest(){
     state = 0;
-    cout<<name<<": Lets have a coffee !";
+    cout<<name<<": Lets have a coffee !"<<endl;
 }
 
 void Worker::represent(){
     cout<<"<worker (name: "<<name<<" ) (job: "<<job<<" ) (state : ";
     if(state == 0)
-    cout<<" rest) >"<<endl;
+    cout<<" rest) ";
     else{
-        cout<<" work) >"<<endl;
+        cout<<" work) ";
+    }
+    cout<<"(paid : ";
+    if(paid_cash)
+    cout<<"yes ) >"<<endl;
+    else{
+        cout<<"no ) >"<<endl;
     }
 }
 
 
 //Customer methods
 void Customer::represent(){
-            cout<<"<customer (name : "<<name<<" ) (car : "<<car_name<<" ) (problem : "<<problem_detail<<" ) >"<<endl;
+            cout<<"<customer (name : "<<name<<" ) (car : "<<car_name<<" ) (problem : "<<problem_detail<<" ) (paid : ";
+            if(paid_cash)
+            cout<<"yes )>"<<endl;
+            else{
+                cout<<"no )>"<<endl;
+            }
+
         }
 
 void Customer::add_to_cart(const Tool& new_tool){
@@ -162,13 +178,15 @@ void Customer::print_cart(){
             cout<<">"<<endl;
         }
 
-void Customer::reckoning(){
+double Customer::reckoning(){
             print_cart();
+            paid_cash = 1;
             double sum = 0;
             for(int i=0; i<cart_size; i++){
                 sum += cart[i].price;
             }
             cout<<"{Sum :"<<sum<<"$}"<<endl;
+            return sum;
         }
 
 
@@ -177,6 +195,7 @@ void MechanicStation::represent(){
             cout<<station_owner<<"->"<<station_name<<endl;
             list_workers();
             list_customers();
+            cout<<"Credit : "<<credit<<endl;
         }
 
 void MechanicStation::add_worker(const Worker& new_worker){
@@ -194,7 +213,13 @@ void MechanicStation::add_customer(const Customer& new_customer){
 void MechanicStation::list_workers(){
             cout<<"<workers ";
             for(int i = 0; i < num_of_workers; i++){
-                cout<<worker_list[i].name<<" ";
+                cout<<"("<<worker_list[i].name<<" / ";
+                if (worker_list[i].state == 0)
+                cout<<"rest";
+                else{
+                    cout<<"work";
+                }
+                cout<<") ";
             }
             cout<<">"<<endl;
         }

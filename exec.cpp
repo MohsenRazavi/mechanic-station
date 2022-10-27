@@ -21,6 +21,7 @@ void add_item_to_customer_cart(MechanicStation& station);
 void customer_list(MechanicStation& station);
 void reckoning_with_customer(MechanicStation& station);
 void view_workers(MechanicStation& station);
+void pay_worker_salary(MechanicStation& station);
 void exit();
 
 
@@ -57,7 +58,7 @@ int welcome(){
         }
         else if(choice==3){
         exit();
-        return 0;
+        break;
         }
         else{
             cout<<"Invalid input! Try again."<<endl;
@@ -71,7 +72,7 @@ void help(){
     char c;
     system("clear");
     cout<<"<-- Help -->"<<endl;
-    cout<<"At each section enter 'quit' to back to main panel."<<endl;
+    cout<<"At each section enter 'quit' as name to back to main panel."<<endl;
     cout<<"Start and use :)"<<endl;
     cout<<"Enter any thing to continue ...";
     cin>>c;
@@ -86,7 +87,6 @@ cout<<"Enter station name : "<<endl;
 cin>>name;
 cout<<"Enter owner name : "<<endl;
 cin>>owner_name;
-
 MechanicStation new_station(name, owner_name);
 cout<<"The station Successfully built."<<endl;
 
@@ -104,6 +104,7 @@ cout<<"<-- "<<station.station_name<<" Info -->"<<endl;
 cout<<"Owner name :"<<station.station_owner<<endl;
 station.list_workers();
 station.list_customers();
+cout<<"Credit : "<<station.credit<<endl;
 
 cout<<"Enter any thing to continue ..."<<endl;
 cin>>c;
@@ -113,8 +114,8 @@ cin>>c;
 int station_management(MechanicStation station){
 system("clear");
 cout<<"<-- "<<station.station_name<<" Management -->"<<endl;
-string oprations[10] = {"Show info", "Change owner", "Add worker", "Add customer", "Remove item from customer cart", "Add item to customer cart", "Customer list", "Reckoning with customer", "view workers", "Exit"};
-int s = choose_oprations(oprations, 10);
+string oprations[11] = {"Show info", "Change owner", "Add worker", "Add customer", "Remove item from customer cart", "Add item to customer cart", "Customer list", "Reckoning with customer", "view workers", "Pay worker cash", "Exit"};
+int s = choose_oprations(oprations, 11);
 
 return s;
 }
@@ -221,6 +222,10 @@ void remove_from_customer_cart(MechanicStation& station){
     if(not found)
     cout<<"Customer not found! Try again."<<endl;
     }
+    if(station.customer_list[i].paid_cash){
+        cout<<"this customer paid his/her cash."<<endl;
+    }
+    else{
     station.customer_list[i].print_cart();
     found = 0;
     while (not found){
@@ -239,6 +244,7 @@ void remove_from_customer_cart(MechanicStation& station){
     }
     station.remove_from_customer_cart(station.customer_list[i], tool);
     cout<<tool<<" deleted successfully from "<<station.customer_list[i].name<<" cart!"<<endl;
+    }
     n_delay(3);
 }
 
@@ -265,6 +271,10 @@ void add_item_to_customer_cart(MechanicStation& station){
     if(not found)
     cout<<"Customer not found! Try again."<<endl;
     }
+    if(station.customer_list[i].paid_cash){
+        cout<<"This customer paid his/her cash."<<endl;
+    }
+    else{
     station.customer_list[i].print_cart();
     cout<<"Enter tool name :"<<endl;
     cin>>tool_name;
@@ -274,6 +284,7 @@ void add_item_to_customer_cart(MechanicStation& station){
 
     station.add_to_customer_cart(station.customer_list[i] ,Tool(tool_name, tool_price));
     cout<<tool_name<<" added successfully to "<<station.customer_list[i].name<<" cart!"<<endl;
+    }
     n_delay(3);
 
 }
@@ -333,12 +344,55 @@ void reckoning_with_customer(MechanicStation& station){
             }
         }
     }
-    station.customer_list[i].reckoning();
-
+    double cash = station.customer_list[i].reckoning();
+    cout<<"Waiting for customer to pay the cash ..."<<endl;
+    n_delay(2);
+    station.credit+=cash;
+    cout<<"Customer paid the cash!"<<endl;
+    cout<<"+ "<<cash<<"$"<<endl;
     cout<<"Enter anything to back to management panel."<<endl;
     cin>>c;
 
 }
+
+void pay_worker_salary(MechanicStation& station){
+    system("clear");
+    string name;
+    int found = 0;
+    char c;
+    cout<<"<-- Pay Worker Salary -->"<<endl;
+    station.list_workers();
+    int i;
+    while(not found){
+    cout<<"Enter worker name : "<<endl;
+        cin>>name;
+        if (name == "quit"){
+        return;
+    }
+        for(i = 0; i < station.num_of_workers; i++){
+            if (name == station.worker_list[i].name){
+                found = 1;
+                break;
+            }
+            if (not found){
+                cout<<"Worker not found! Try again."<<endl;
+            }
+        }
+    }
+    station.worker_list[i].represent();
+    n_delay(2);
+    if(station.credit -= station.worker_list[i].peyment >= 0){
+    station.credit -= station.worker_list[i].peyment;
+    station.worker_list[i].paid_cash = 1;
+    cout<<"Worker salary paid!"<<endl;
+    }
+    else{
+        cout<<"Station Credit is not enough!"<<endl;
+    }
+    n_delay(3);
+
+}
+
 
 void view_workers(MechanicStation& station){
     system("clear");
@@ -370,9 +424,9 @@ void view_workers(MechanicStation& station){
         cin>>c;
         if (c == 'y'){
             if (station.worker_list[i].state == 0)
-            station.worker_list[i].state = 1;
+            station.worker_list[i].work();
             else{
-                station.worker_list[i].state=0;
+                station.worker_list[i].rest();
             }
             cout<<"Worker state successfully toggled."<<endl;
             break;

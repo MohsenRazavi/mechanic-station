@@ -51,6 +51,10 @@ view_workers(local_station);
 break;
 
 case 10:
+pay_worker_salary(local_station);
+break;
+
+case 11:
 exit();
 return 0;
 break;
