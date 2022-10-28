@@ -344,12 +344,17 @@ void reckoning_with_customer(MechanicStation& station){
             }
         }
     }
+    if(station.customer_list[i].paid_cash){
+        cout<<"This customer is already checked out."<<endl;
+    }
+    else{
     double cash = station.customer_list[i].reckoning();
     cout<<"Waiting for customer to pay the cash ..."<<endl;
     n_delay(2);
     station.credit+=cash;
     cout<<"Customer paid the cash!"<<endl;
     cout<<"+ "<<cash<<"$"<<endl;
+    }
     cout<<"Enter anything to back to management panel."<<endl;
     cin>>c;
 
@@ -381,7 +386,7 @@ void pay_worker_salary(MechanicStation& station){
     }
     station.worker_list[i].represent();
     n_delay(2);
-    if(station.credit -= station.worker_list[i].peyment >= 0){
+    if(station.credit >= station.worker_list[i].peyment){
     station.credit -= station.worker_list[i].peyment;
     station.worker_list[i].paid_cash = 1;
     cout<<"Worker salary paid!"<<endl;
