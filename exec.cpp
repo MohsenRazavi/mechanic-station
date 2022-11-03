@@ -199,8 +199,6 @@ void add_customer(MechanicStation& station){
     getline(cin, car_name);
 
     cout<<"What is his/her problem ?"<<endl;
-    // cin>>problem_detail;
-    // cin.ignore();
     getline(cin, problem_detail);
 
     station.add_customer(Customer(name, car_name, problem_detail));
@@ -219,7 +217,7 @@ void remove_from_customer_cart(MechanicStation& station){
     cin.ignore();
     while(not found){
     cout<<"Enter customer name :"<<endl;
-    // cin>>name;
+
     getline(cin, name);
     if (name == "quit"){
         return;
@@ -242,8 +240,7 @@ void remove_from_customer_cart(MechanicStation& station){
     while (not found){
     found = 0;
     cout<<"Enter tool name :"<<endl;
-    // cin>>tool;
-    // cin.ignore();
+
     getline(cin, tool);
         for(int j=0 ; j< station.customer_list[i].cart_size ;j++){
         if (station.customer_list[i].cart[j].name == tool){
@@ -272,7 +269,7 @@ void add_item_to_customer_cart(MechanicStation& station){
     cin.ignore();
     while(not found){
     cout<<"Enter customer name : ";
-    // cin>>name;
+
     getline(cin, name);
 
     if (name == "quit"){
@@ -293,8 +290,7 @@ void add_item_to_customer_cart(MechanicStation& station){
     else{
     station.customer_list[i].print_cart();
     cout<<"Enter tool name :"<<endl;
-    // cin>>tool_name;
-    // cin.ignore();
+
     getline(cin, tool_name);
 
     cout<<"Enter tool price :"<<endl;
@@ -319,7 +315,7 @@ void customer_list(MechanicStation& station){
         cin.ignore();
     while(not found){
         cout<<"Enter customer name : ";
-        // cin>>name;
+
         getline(cin, name);
         if (name == "quit"){
         return;
@@ -351,7 +347,7 @@ void reckoning_with_customer(MechanicStation& station){
         cin.ignore();
     while(not found){
         cout<<"Enter customer name :"<<endl;
-        // cin>>name;
+
         getline(cin, name);
         if (name == "quit"){
         return;
@@ -393,7 +389,7 @@ void pay_worker_salary(MechanicStation& station){
         cin.ignore();
     while(not found){
     cout<<"Enter worker name : "<<endl;
-        // cin>>name;
+
         getline(cin, name);
         if (name == "quit"){
         return;
@@ -403,7 +399,7 @@ void pay_worker_salary(MechanicStation& station){
                 found = 1;
                 break;
             }
-            if (not found){
+        if (not found){
                 cout<<"Worker not found! Try again."<<endl;
             }
         }
@@ -414,6 +410,7 @@ void pay_worker_salary(MechanicStation& station){
     station.credit -= station.worker_list[i].peyment;
     station.worker_list[i].paid_cash = 1;
     cout<<"Worker salary paid!"<<endl;
+    cout<<"- "<<station.worker_list[i].peyment<<"$"<<endl;
     }
     else{
         cout<<"Station Credit is not enough!"<<endl;
@@ -434,7 +431,7 @@ void view_workers(MechanicStation& station){
         cin.ignore();
     while(not found){
     cout<<"Enter worker name : "<<endl;
-        // cin>>name;
+
         getline(cin, name);
         if (name == "quit"){
         return;
