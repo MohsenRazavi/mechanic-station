@@ -227,7 +227,7 @@ void MechanicStation::list_workers(){
 void MechanicStation::list_customers(){
             cout<<"<customers ";
             for(int i = 0; i < num_of_customers; i++){
-                cout<<customer_list[i].name<<" ";
+                cout<<"("<<customer_list[i].name<<" / "<<customer_list[i].car_name<<") ";
             }
             cout<<">"<<endl;
         }
